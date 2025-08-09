@@ -3,7 +3,6 @@ import Navigation from './components/Navigation/Navigation.jsx'
 import Logo from './components/Logo/Logo.jsx'
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm.jsx'
 import Rank from './components/Rank/Rank.jsx'
-import FaceRecognition from './FaceRecognition.jsx'
 import { useEffect } from 'react'
 
 function App() {
@@ -21,10 +20,7 @@ function App() {
       <Logo />
       <Rank />
       <ImageLinkForm />
-      {
-        /* 
-        
-        <FaceRecognition />*/
+      { /*<FaceRecognition />*/
       }
       
     </div>
