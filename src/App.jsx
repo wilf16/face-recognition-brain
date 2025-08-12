@@ -13,11 +13,11 @@ function App() {
   const [isSignedIn, setIsSignedIn] = useState(false);
 
   const onRouteChange = (newRoute) => {
-    if (newRoute == 'signout') {
+    if (newRoute === 'signout') {
       setIsSignedIn(false);
-    } else if (newRoute == 'home') {
+    } else if (newRoute === 'home') {
       setIsSignedIn(true);
-    } else if (newRoute == 'signin') {
+    } else if (newRoute === 'signin') {
       setIsSignedIn(false);
     }
     setRoute(newRoute);
