@@ -6,7 +6,7 @@ import Rank from './components/Rank/Rank.jsx'
 import SignIn from './components/SignIn/SignIn.jsx'
 import Register from './components/Register/Register.jsx'
 import FaceRecognition from './components/FaceRecognition/FaceRecognition.jsx'
-import { useState, useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
 // import Clarifai from 'clarifai'
 
 function App() {
