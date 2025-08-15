@@ -7,7 +7,6 @@ import SignIn from './components/SignIn/SignIn.jsx'
 import Register from './components/Register/Register.jsx'
 import FaceRecognition from './components/FaceRecognition/FaceRecognition.jsx'
 import { useState, useEffect } from 'react'
-// import Clarifai from 'clarifai'
 
 function App() {
   const [route, setRoute] = useState('signin');
@@ -39,28 +38,36 @@ function App() {
 
   const onButtonSubmit = () => {
     setImageUrl(input);
-    displayFaceBox({
-      leftCol: 131.729,
-      topRow: 146.954,
-      rightCol: 141.376,
-      bottomRow: 123.161
-    });
-    // app.models.predict(Clarifai.FACE_DETECT_MODEL, input)
-    // .then(response => calculateFaceLocation(response))
-    // .then(box => displayFaceBox(box))
-    // .catch(err => console.log(err));
+    fetch('http://localhost:3000/image', {
+      method: 'put',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: '123',
+        imageUrl: imageUrl
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data) {
+        console.log(data);
+        displayFaceBox(calculateFaceLocation(data))
+      }
+    })
+    .catch(err => console.log(err));
   }
 
   function calculateFaceLocation(data) {
-    const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
+    const clarifaiFace = data.boundingBoxes[0];
     const image = document.getElementById('inputimage');
     const width = Number(image.width);
     const height = Number(image.height);
     return {
-      leftCol: clarifaiFace.left_col * width,
-      topRow: clarifaiFace.top_row * height,
-      rightCol: width - (clarifaiFace.right_col * width),
-      bottomRow: height - (clarifaiFace.bottom_row * height)
+      leftCol: clarifaiFace.leftCol * width,
+      topRow: clarifaiFace.topRow * height,
+      rightCol: width - (clarifaiFace.rightCol * width),
+      bottomRow: height - (clarifaiFace.bottomRow * height)
     }
   }
 
