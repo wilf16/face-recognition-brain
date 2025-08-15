@@ -45,7 +45,7 @@ function App() {
       },
       body: JSON.stringify({
         id: '123',
-        imageUrl: imageUrl
+        imageUrl: input
       })
     })
     .then(response => response.json())
