@@ -14,12 +14,31 @@ function App() {
   const [input, setInput] = useState('');
   const [imageUrl, setImageUrl] = useState(null);
   const [box, setBox] = useState({});
+  const [user, setUser] = useState(
+    {
+      id: '',
+      name: '',
+      email: '',
+      entries: 0,
+      joined: ''
+    }
+  );
 
   useEffect(() => {
     particlesJS.load('particles-js', './src/assets/particles.json', function() {
       console.log('callback - particles.js config loaded');
     });
   }, []);
+
+  const loadUser = (data) => {
+    setUser({
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      entries: data.entries,
+      joined: data.joined
+    });
+  }
 
   const onRouteChange = (newRoute) => {
     if (newRoute === 'signout') {
@@ -44,7 +63,7 @@ function App() {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        id: '123',
+        id: user.id,
         imageUrl: input
       })
     })
@@ -52,6 +71,10 @@ function App() {
     .then(data => {
       if (data) {
         console.log(data);
+        setUser(prevUser => ({
+          ...prevUser,
+          entries: data.entries
+        }));
         displayFaceBox(calculateFaceLocation(data))
       }
     })
@@ -83,7 +106,7 @@ function App() {
         
         ? <div>
             <Logo />
-            <Rank />
+            <Rank name={user.name} entries={user.entries} />
             <ImageLinkForm 
               onInputChange={onInputChange} 
               onButtonSubmit={onButtonSubmit} />
@@ -91,8 +114,8 @@ function App() {
           </div>
         : <div>
             { route === 'signin' 
-              ? <SignIn onRouteChange={onRouteChange} /> 
-              : <Register onRouteChange={onRouteChange} />
+              ? <SignIn onRouteChange={onRouteChange} loadUser={loadUser} /> 
+              : <Register onRouteChange={onRouteChange} loadUser={loadUser} />
             }
           </div>
       }
